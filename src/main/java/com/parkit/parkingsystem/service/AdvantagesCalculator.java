@@ -10,27 +10,26 @@ public class AdvantagesCalculator {
             case CAR: {
                 if(price <= 0.75){
                     ticket.setPrice(0);
-                    System.out.println("reduction appliquée");
+                    System.out.println("Montant <= 0.75 = CAR reduction appliquée");
                 }
                 else {
                     ticket.setPrice(price - 0.75);
+                    System.out.println("Montant > 0.75 = CAR reduction appliquée");
                 }
                 break;
             }
             case BIKE: {
                 if(price <= 0.50){
                     ticket.setPrice(0);
+                    System.out.println("Montant <= 0.50 = BIKE reduction appliquée");
                 }
                 else {
                     ticket.setPrice(price - 0.50);
+                    System.out.println("Montant > 0.50 = BIKE reduction appliquée");
                 }
                 break;
             }
             default: throw new IllegalArgumentException("Unknown Parking Type");
         }
-    }
-
-    public static void CalculateRecurringAdvantage(){
-
     }
 }
