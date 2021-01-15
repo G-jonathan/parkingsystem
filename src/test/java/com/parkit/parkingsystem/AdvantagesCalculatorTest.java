@@ -23,8 +23,7 @@ public class AdvantagesCalculatorTest {
     private static void setUp(){ advantagesCalculator = new AdvantagesCalculator(); }
 
     @Test
-    public void calculateFreeTimeForCarEqualOrLowerToReduction(){ //01
-        System.out.println("ENTREE DANS LE TEST 01");
+    public void calculateFreeTimeForCarEqualOrLowerToReduction(){
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setParkingSpot(parkingSpot);
@@ -33,8 +32,7 @@ public class AdvantagesCalculatorTest {
     }
 
     @Test
-    public void calculateFreeTimeForCarSuperiorToReduction(){ //02
-        System.out.println("ENTREE DANS LE TEST 02");
+    public void calculateFreeTimeForCarSuperiorToReduction(){
         ticket.setPrice(1.00);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setParkingSpot(parkingSpot);
@@ -43,8 +41,7 @@ public class AdvantagesCalculatorTest {
     }
 
     @Test
-    public void calculateFreeTimeForBikeEqualOrLowerToReduction(){ //03
-        System.out.println("ENTREE DANS LE TEST 03");
+    public void calculateFreeTimeForBikeEqualOrLowerToReduction(){
         ticket.setPrice(0.50);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
         ticket.setParkingSpot(parkingSpot);
@@ -53,8 +50,7 @@ public class AdvantagesCalculatorTest {
     }
 
     @Test
-    public void calculateFreeTimeForBikeSuperiorToReduction(){ //04
-        System.out.println("ENTREE DANS LE TEST 04");
+    public void calculateFreeTimeForBikeSuperiorToReduction(){
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
         ticket.setParkingSpot(parkingSpot);
@@ -63,8 +59,7 @@ public class AdvantagesCalculatorTest {
     }
 
     @Test
-    public void calculateFreeTimeUnknownType(){ //05
-        System.out.println("ENTREE DANS LE TEST 05");
+    public void calculateFreeTimeUnknownType(){
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, null,false);
         ticket.setParkingSpot(parkingSpot);
