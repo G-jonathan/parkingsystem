@@ -12,14 +12,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class AdvantagesCalculatorTest {
+
     private Ticket ticket;
+    private static AdvantagesCalculator advantagesCalculator;
+
+    @BeforeEach
+    private void setUpPerTest() { ticket = new Ticket(); }
+
+    @BeforeAll
+    private static void setUp(){ advantagesCalculator = new AdvantagesCalculator(); }
 
     @Test
     public void calculateFreeTimeForCarEqualToReduction(){
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setParkingSpot(parkingSpot);
-        AdvantagesCalculator.CalculateFreeTime(ticket);
+        advantagesCalculator.CalculateFreeTime(ticket);
         assertEquals(ticket.getPrice(), 0.00);
     }
 }
