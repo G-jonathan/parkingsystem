@@ -68,7 +68,6 @@ public class AdvantagesCalculatorTest {
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, null,false);
         ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.CalculateFreeTime(ticket);
         assertThrows(NullPointerException.class, () -> advantagesCalculator.CalculateFreeTime(ticket));
     }
 }
