@@ -23,7 +23,7 @@ public class AdvantagesCalculatorTest {
     private static void setUp(){ advantagesCalculator = new AdvantagesCalculator(); }
 
     @Test
-    public void calculateFreeTimeForCarEqualToReduction(){ //01
+    public void calculateFreeTimeForCarEqualOrLowerToReduction(){ //01
         System.out.println("ENTREE DANS LE TEST 01");
         ticket.setPrice(0.75);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
@@ -43,7 +43,7 @@ public class AdvantagesCalculatorTest {
     }
 
     @Test
-    public void calculateFreeTimeForBikeEqualToReduction(){ //03
+    public void calculateFreeTimeForBikeEqualOrLowerToReduction(){ //03
         System.out.println("ENTREE DANS LE TEST 03");
         ticket.setPrice(0.50);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
@@ -60,5 +60,15 @@ public class AdvantagesCalculatorTest {
         ticket.setParkingSpot(parkingSpot);
         advantagesCalculator.CalculateFreeTime(ticket);
         assertEquals(ticket.getPrice(), 0.25);
+    }
+
+    @Test
+    public void calculateFreeTimeUnknownType(){ //05
+        System.out.println("ENTREE DANS LE TEST 05");
+        ticket.setPrice(0.75);
+        ParkingSpot parkingSpot = new ParkingSpot(1, null,false);
+        ticket.setParkingSpot(parkingSpot);
+        advantagesCalculator.CalculateFreeTime(ticket);
+        assertThrows(NullPointerException.class, () -> advantagesCalculator.CalculateFreeTime(ticket));
     }
 }
