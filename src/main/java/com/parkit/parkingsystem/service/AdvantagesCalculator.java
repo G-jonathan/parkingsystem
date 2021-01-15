@@ -4,6 +4,7 @@ import com.parkit.parkingsystem.model.Ticket;
 public class AdvantagesCalculator {
 
     public  void CalculateFreeTime(Ticket ticket){
+        System.out.println("ENTREE DANS ADAVANTAGESCALCULATOR.CALCULATEFREETIME");
         double price = ticket.getPrice();
 
         switch (ticket.getParkingSpot().getParkingType()){
