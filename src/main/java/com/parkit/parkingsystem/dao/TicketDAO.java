@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TicketDAO {
 
@@ -82,5 +83,23 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
         }
         return false;
+    }
+
+    public ArrayList<String> getAllVehicleRegNumber(){
+        Connection con = null;
+        ArrayList<String> list = new ArrayList<>();
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_ALL_VEHICLE_REG_NUMBER);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                list.add(rs.toString());
+            }
+        }catch (Exception ex){
+            logger.error("Error getting all vehicle reg number",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return list;
     }
 }
