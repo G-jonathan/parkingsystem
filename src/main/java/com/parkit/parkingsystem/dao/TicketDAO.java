@@ -93,13 +93,13 @@ public class TicketDAO {
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_ALL_VEHICLE_REG_NUMBER);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
-                list.add(rs.toString());
+                list.add(rs.getString(1));
             }
         }catch (Exception ex){
             logger.error("Error getting all vehicle reg number",ex);
         }finally {
             dataBaseConfig.closeConnection(con);
         }
-        return list;
+        return list; // exemple: [ABC01, ABC02, ABC03, Peugeot]
     }
 }
