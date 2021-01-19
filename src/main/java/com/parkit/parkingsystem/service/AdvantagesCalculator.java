@@ -28,4 +28,12 @@ public class AdvantagesCalculator {
             default: throw new IllegalArgumentException("Unknown Parking Type");
         }
     }
+
+    public void CalculateDiscountForRecurringUsers(Ticket ticket){
+        if (ticket.getPrice() == 0){
+        }
+        else {
+            ticket.setPrice(ticket.getPrice() );
+        }
+    }
 }

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import com.parkit.parkingsystem.service.AdvantagesCalculator;
 
@@ -108,6 +109,8 @@ public class ParkingService {
             ticket.setOutTime(outTime);
             fareCalculatorService.calculateFare(ticket);
             advantagesCalculator.CalculateFreeTime(ticket);
+            ArrayList<String> list = ticketDAO.getAllVehicleRegNumber();
+            System.out.println("#####  VOICI LES VEHICULES ENREGISTRES:" + list + "#####");
             if(ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);

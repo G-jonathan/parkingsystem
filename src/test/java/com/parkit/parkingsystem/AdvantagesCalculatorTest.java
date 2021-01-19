@@ -93,5 +93,32 @@ public class AdvantagesCalculatorTest {
         advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
         assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
     }
+
+    @Test
+    public void calculateDiscountForRecurringUsersWithCarWhenAmountSuperiorToZero(){
+        ticket.setPrice(1);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ticket.setParkingSpot(parkingSpot);
+        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
+        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    }
+
+    @Test
+    public void calculateDiscountForRecurringUsersWithBikeWhenAmountSuperiorToZero(){
+        ticket.setPrice(1);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        ticket.setParkingSpot(parkingSpot);
+        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
+        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    }
+
+    @Test
+    public void calculateDiscountForRecurringUsersWithCarWhenAmountInferiorOrEqualToZero(){
+        ticket.setPrice(1);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        ticket.setParkingSpot(parkingSpot);
+        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
+        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    }
 }
 */
