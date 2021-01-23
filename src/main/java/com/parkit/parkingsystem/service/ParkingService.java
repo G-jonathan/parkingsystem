@@ -104,7 +104,7 @@ public class ParkingService {
             Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
             LocalDateTime outTime = LocalDateTime.now();
             ticket.setOutTime(outTime);
-            fareCalculatorService.calculateFare(ticket);
+            fareCalculatorService.calculateFare(ticket); // (ticket; ticketDAO ) ???
             advantagesCalculator.CalculateFreeTime(ticket);
             advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
             if(ticketDAO.updateTicket(ticket)) {

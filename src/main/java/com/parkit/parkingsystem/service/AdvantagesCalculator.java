@@ -2,7 +2,6 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
-
 import java.util.ArrayList;
 
 public class AdvantagesCalculator {
@@ -33,7 +32,7 @@ public class AdvantagesCalculator {
         }
     }
 
-    public void CalculateDiscountForRecurringUsers(Ticket ticket){
+    public void calculateDiscountForRecurringUsers(Ticket ticket){
 
         TicketDAO ticketDAO = new TicketDAO();
         String vehicleRegNumber = ticket.getVehicleRegNumber();
@@ -53,7 +52,7 @@ public class AdvantagesCalculator {
             System.out.println("UTILISATEUR RECURENT..." +"ANCIEN PRIX: " +priceWithoutDiscount +" ... NOUVEAU PRIX:..." + priceWithDiscount);
         }
         else {
-            System.out.println("UTILISATEUR NON TROUVE, PAS DE REMISE ACCORDEE");
+            System.out.println("PAS DE REMISE ACCORDEE l'UTILISATEUR EST DEJA VENU " + number +"fois");
         }
         System.out.println("#####  VOICI LES VEHICULES ENREGISTRES:" + list + "#####");
     }
