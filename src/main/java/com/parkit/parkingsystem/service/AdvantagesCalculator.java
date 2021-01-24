@@ -1,59 +1,30 @@
 package com.parkit.parkingsystem.service;
 
-import com.parkit.parkingsystem.dao.TicketDAO;
-import com.parkit.parkingsystem.model.Ticket;
 import java.util.ArrayList;
 
 public class AdvantagesCalculator {
 
-    public  void CalculateFreeTime(Ticket ticket){
-        double price = ticket.getPrice();
-
-        switch (ticket.getParkingSpot().getParkingType()){
-            case CAR: {
-                if(price <= 0.75){
-                    ticket.setPrice(0);
-                }
-                else {
-                    ticket.setPrice(price - 0.75);
-                }
-                break;
-            }
-            case BIKE: {
-                if(price <= 0.50){
-                    ticket.setPrice(0);
-                }
-                else {
-                    ticket.setPrice(price - 0.50);
-                }
-                break;
-            }
-            default: throw new IllegalArgumentException("Unknown Parking Type");
+    public long subtractFreeTime(long time) {
+        if (time > 30) {
+            return time - 30;
         }
+        return 0;
     }
 
-    public void calculateDiscountForRecurringUsers(Ticket ticket){
-
-        TicketDAO ticketDAO = new TicketDAO();
-        String vehicleRegNumber = ticket.getVehicleRegNumber();
-        double priceWithoutDiscount = ticket.getPrice();
-        ArrayList<String> list = ticketDAO.getAllVehicleRegNumber();
+    public boolean isEligibleForDiscountForRecurringUsers(ArrayList<String> list, String vehicleRegNumber) {
         int number = 0;
-
         for (String i : list) {
             if (i.equals(vehicleRegNumber)) {
                 number++;
             }
         }
-        if (number>=3){
-            double priceWithDiscount;
-            priceWithDiscount = priceWithoutDiscount - (priceWithoutDiscount*5/100);
-            ticket.setPrice(priceWithDiscount);
-            System.out.println("UTILISATEUR RECURENT..." +"ANCIEN PRIX: " +priceWithoutDiscount +" ... NOUVEAU PRIX:..." + priceWithDiscount);
+        if (number>=1){
+            return true;
         }
-        else {
-            System.out.println("PAS DE REMISE ACCORDEE l'UTILISATEUR EST DEJA VENU " + number +"fois");
-        }
-        System.out.println("#####  VOICI LES VEHICULES ENREGISTRES:" + list + "#####");
+        return false;
+    }
+
+    public double applyFivePercentReduction(double numberWithoutReduction) {
+        return numberWithoutReduction - (numberWithoutReduction * 5 / 100);
     }
 }
