@@ -2,7 +2,6 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
-
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ public class FareCalculatorService {
         double timeToPayInMinutes = (Math.abs(duration.toMinutes()));
         double timeToPayInHours = timeToPayInMinutes/60;
         DecimalFormat decimalFormat = new DecimalFormat("####.##");
-        double timeToPayInHoursInDecimalFormat = Double.parseDouble(decimalFormat.format(timeToPayInHours)); //rounded upper
+        double timeToPayInHoursInDecimalFormat = Double.parseDouble(decimalFormat.format(timeToPayInHours)); //rounded
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
