@@ -2,7 +2,7 @@ package com.parkit.parkingsystem.service;
 
 import java.util.ArrayList;
 
-public class AdvantagesCalculator {
+public final class AdvantagesCalculator {
 
     public long subtractFreeTime(long time) {
         if (time > 30) {

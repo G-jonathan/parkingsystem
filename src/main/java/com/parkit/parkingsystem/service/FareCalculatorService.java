@@ -7,7 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class FareCalculatorService {
+public final class FareCalculatorService {
     private final AdvantagesCalculator advantagesCalculator = new AdvantagesCalculator();
     private double fareWithoutDiscountForRecurringUsers = 0;
     private final DecimalFormat decimalFormat = new DecimalFormat("####.##");

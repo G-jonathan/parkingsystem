@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class TicketDAO {
+public final class TicketDAO {
     private static final Logger logger = LogManager.getLogger("TicketDAO");
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
 
