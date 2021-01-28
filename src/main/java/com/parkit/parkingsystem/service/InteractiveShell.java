@@ -6,7 +6,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class InteractiveShell {
+public final class InteractiveShell {
 
     private static final Logger logger = LogManager.getLogger("InteractiveShell");
 

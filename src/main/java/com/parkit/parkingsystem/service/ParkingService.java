@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 
-public class ParkingService {
+public final class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
 

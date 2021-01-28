@@ -2,7 +2,7 @@ package com.parkit.parkingsystem.model;
 
 import java.time.LocalDateTime;
 
-public class Ticket {
+public final class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
     private String vehicleRegNumber;

@@ -5,7 +5,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 import java.util.ArrayList;
 
-public class AdvantagesCalculator {
+public final class AdvantagesCalculator {
 
     public  void CalculateFreeTime(Ticket ticket){
         double price = ticket.getPrice();
