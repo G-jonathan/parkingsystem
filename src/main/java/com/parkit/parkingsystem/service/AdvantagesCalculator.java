@@ -13,8 +13,8 @@ public class AdvantagesCalculator {
 
     public boolean isEligibleForDiscountForRecurringUsers(ArrayList<String> list, String vehicleRegNumber) {
         int number = 0;
-        for (String i : list) {
-            if (i.equals(vehicleRegNumber)) {
+        for (String index : list) {
+            if (index.equals(vehicleRegNumber)) {
                 number++;
             }
         }
