@@ -2,7 +2,7 @@ package com.parkit.parkingsystem.model;
 
 import com.parkit.parkingsystem.constants.ParkingType;
 
-public class ParkingSpot {
+public final class ParkingSpot {
     private int number;
     private ParkingType parkingType;
     private boolean isAvailable;
@@ -38,10 +38,10 @@ public class ParkingSpot {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ParkingSpot that = (ParkingSpot) o;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        ParkingSpot that = (ParkingSpot) object;
         return number == that.number;
     }
 

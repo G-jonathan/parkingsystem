@@ -17,10 +17,10 @@ public class DataBaseTestConfig extends DataBaseConfig {
                 "jdbc:mysql://localhost:3306/test","jonathanDev","lemotdepasseleplussolidedetouslestemps");
     }
 
-    public void closeConnection(Connection con){
-        if(con!=null){
+    public void closeConnection(Connection connection){
+        if(connection !=null){
             try {
-                con.close();
+                connection.close();
                 logger.info("Closing DB connection");
             } catch (SQLException e) {
                 logger.error("Error while closing connection",e);
@@ -28,10 +28,10 @@ public class DataBaseTestConfig extends DataBaseConfig {
         }
     }
 
-    public void closePreparedStatement(PreparedStatement ps) {
-        if(ps!=null){
+    public void closePreparedStatement(PreparedStatement statement) {
+        if(statement !=null){
             try {
-                ps.close();
+                statement.close();
                 logger.info("Closing Prepared Statement");
             } catch (SQLException e) {
                 logger.error("Error while closing prepared statement",e);
@@ -39,10 +39,10 @@ public class DataBaseTestConfig extends DataBaseConfig {
         }
     }
 
-    public void closeResultSet(ResultSet rs) {
-        if(rs!=null){
+    public void closeResultSet(ResultSet resultSet) {
+        if(resultSet !=null){
             try {
-                rs.close();
+                resultSet.close();
                 logger.info("Closing Result Set");
             } catch (SQLException e) {
                 logger.error("Error while closing result set",e);
