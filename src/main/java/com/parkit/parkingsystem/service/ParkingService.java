@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ParkingService {
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -24,17 +25,15 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
-    public void processIncomingVehicle() {
+    public void processIncomingVehicle() throws Exception {
         try {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if (parkingSpot != null && parkingSpot.getId() > 0) {
                 String vehicleRegNumber = getVehicleRegNumber();
                 parkingSpot.setAvailable(false);
-                parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
-
+                parkingSpotDAO.updateParking(parkingSpot);
                 LocalDateTime inTime = LocalDateTime.now();
                 Ticket ticket = new Ticket();
-                //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
                 //ticket.setId(ticketID);
                 ticket.setParkingSpot(parkingSpot);
                 ticket.setVehicleRegNumber(vehicleRegNumber);
@@ -94,28 +93,26 @@ public class ParkingService {
         }
     }
 
-    public void processExitingVehicle() {
-        try {
-            String vehicleRegNumber = getVehicleRegNumber();
-            ArrayList<String> vehiclesAlreadyRegisteredList = ticketDAO.getAllVehicleRegNumber();
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            ParkingType parkingType = ticket.getParkingSpot().getParkingType();
-            LocalDateTime inTime = ticket.getInTime();
-            LocalDateTime outTime = LocalDateTime.now();
-            ticket.setOutTime(outTime);
-            double finalFare = fareCalculatorService.calculateFare(ticket, vehiclesAlreadyRegisteredList);
-            ticket.setPrice(finalFare);
-            if (ticketDAO.updateTicket(ticket)) {
-                ParkingSpot parkingSpot = ticket.getParkingSpot();
-                parkingSpot.setAvailable(true);
-                parkingSpotDAO.updateParking(parkingSpot);
-                System.out.println("Please pay the parking fare:" + ticket.getPrice());
-                System.out.println("Recorded out-time for vehicle number:" + ticket.getVehicleRegNumber() + " is:" + outTime);
-            } else {
-                System.out.println("Unable to update ticket information. Error occurred");
-            }
-        } catch (Exception e) {
-            logger.error("Unable to process exiting vehicle", e);
+    public void processExitingVehicle() throws Exception {
+        String vehicleRegNumber = getVehicleRegNumber();
+        Optional<Ticket> ticket = ticketDAO.getTicket(vehicleRegNumber);
+        if (!ticket.isPresent()) {
+            System.out.println("Unable to retrieve information from vehicle " + vehicleRegNumber);
+            return;
+        }
+        LocalDateTime outTime = LocalDateTime.now();
+        ticket.get().setOutTime(outTime);
+        ArrayList<String> vehiclesAlreadyRegisteredList = ticketDAO.getAllVehicleRegNumber();
+        double finalFare = fareCalculatorService.calculateFare(ticket.get(), vehiclesAlreadyRegisteredList);
+        ticket.get().setPrice(finalFare);
+        if (ticketDAO.updateTicket(ticket.get())) {
+            ParkingSpot parkingSpot = ticket.get().getParkingSpot();
+            parkingSpot.setAvailable(true);
+            parkingSpotDAO.updateParking(parkingSpot);
+            System.out.println("Please pay the parking fare:" + finalFare);
+            System.out.println("Recorded out-time for vehicle number:" + vehicleRegNumber + " is:" + outTime);
+        } else {
+            System.out.println("Unable to update ticket information. Error occurred");
         }
     }
 }
