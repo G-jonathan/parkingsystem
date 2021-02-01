@@ -2,6 +2,7 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
+import com.parkit.parkingsystem.model.Ticket;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -12,13 +13,16 @@ public final class FareCalculatorService {
     private double fareWithoutDiscountForRecurringUsers = 0;
     private final DecimalFormat decimalFormat = new DecimalFormat("####.##");
 
-    public double calculateFare(LocalDateTime inTime, LocalDateTime outTime, ParkingType parkingType, String vehicleRegNumber, ArrayList<String> vehiclesAlreadyRegisteredList) {
+    public double calculateFare(Ticket ticket, ArrayList<String> vehiclesAlreadyRegisteredList) {
+        LocalDateTime outTime = ticket.getOutTime();
+        LocalDateTime inTime = ticket.getInTime();
+        ParkingType parkingType = ticket.getParkingSpot().getParkingType();
+        String vehicleRegNumber = ticket.getVehicleRegNumber();
         if ((outTime == null) || (outTime.isBefore(inTime))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + outTime.toString());
         }
         long durationBetweenInTimeAndOutTime = Duration.between(inTime, outTime).toMinutes();
         long durationAfterSubtractFreeTime = advantagesCalculator.subtractFreeTime(durationBetweenInTimeAndOutTime);
-
         if (durationAfterSubtractFreeTime <= 0) {
             return fareWithoutDiscountForRecurringUsers;
         } else {

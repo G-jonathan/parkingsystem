@@ -11,8 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public final class ParkingService {
-
+public class ParkingService {
     private static final Logger logger = LogManager.getLogger("ParkingService");
     private final FareCalculatorService fareCalculatorService = new FareCalculatorService();
     private final InputReaderUtil inputReaderUtil;
@@ -104,7 +103,7 @@ public final class ParkingService {
             LocalDateTime inTime = ticket.getInTime();
             LocalDateTime outTime = LocalDateTime.now();
             ticket.setOutTime(outTime);
-            double finalFare = fareCalculatorService.calculateFare(inTime, outTime, parkingType, vehicleRegNumber, vehiclesAlreadyRegisteredList);
+            double finalFare = fareCalculatorService.calculateFare(ticket, vehiclesAlreadyRegisteredList);
             ticket.setPrice(finalFare);
             if (ticketDAO.updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
