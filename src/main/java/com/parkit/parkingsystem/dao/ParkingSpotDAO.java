@@ -24,12 +24,11 @@ public class ParkingSpotDAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
-                ;
             }
             dataBaseConfig.closeResultSet(resultSet);
             dataBaseConfig.closePreparedStatement(statement);
         } catch (Exception ex) {
-            logger.error("Error fetching next available slot", ex);
+            logger.error("01 Error fetching next available slot", ex);
         } finally {
             dataBaseConfig.closeConnection(connection);
         }

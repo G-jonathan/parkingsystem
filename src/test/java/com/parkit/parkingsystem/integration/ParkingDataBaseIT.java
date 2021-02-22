@@ -47,22 +47,17 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingACar() {
+    public void testRegistrationIncomingVehicle() {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
         assertNotNull(ticketDAO.getTicket("ABCDEF"));
-        assertFalse(ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
-
-        System.out.println("###########################  ICI ###############################");
+        assertFalse(ticketDAO.getTicket("ABCDEF").get().getParkingSpot().isAvailable());
     }
-//ticketDAO.getTicket("ABCDEF") != null && !ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable()
-//TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
 
-    //@Test
-    /*public void testParkingLotExit() {
-        testParkingACar();
+    @Test
+    public void testRegistrationExitingVehicle() {
+        testRegistrationIncomingVehicle();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
-        //TODO: check that the fare generated and out time are populated correctly in the database
-    }*/
+    }
 }
