@@ -18,13 +18,16 @@ public final class AdvantagesCalculator {
                 number++;
             }
         }
-        if (number>=1){
+        if (number >= 1) {
             return true;
         }
         return false;
     }
 
     public double applyFivePercentReduction(double numberWithoutReduction) {
-        return numberWithoutReduction - (numberWithoutReduction * 5 / 100);
+        if (numberWithoutReduction > 0) {
+            return numberWithoutReduction - (numberWithoutReduction * 5 / 100);
+        }
+        return 0;
     }
 }

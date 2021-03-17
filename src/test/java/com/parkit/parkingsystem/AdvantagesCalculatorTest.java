@@ -1,96 +1,93 @@
 package com.parkit.parkingsystem;
 
-import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.model.ParkingSpot;
-import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.AdvantagesCalculator;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
 public class AdvantagesCalculatorTest {
-
-
-    private Ticket ticket;
     private static AdvantagesCalculator advantagesCalculator;
 
     @BeforeEach
-    private void setUpPerTest() { ticket = new Ticket(); }
+    private void setUpPerTest() {
+    }
 
     @BeforeAll
-    private static void setUp(){ advantagesCalculator = new AdvantagesCalculator(); }
+    private static void setUp() {
+        advantagesCalculator = new AdvantagesCalculator();
+    }
 
-    @Test
-    public void calculateFreeTimeForCarEqualOrLowerToReduction(){
-        ticket.setPrice(0.75);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.calculateFreeTime(ticket);
-        assertEquals(ticket.getPrice(), 0.00);
+    @AfterAll
+    private static void tearDown() {
     }
 
     @Test
-    public void calculateFreeTimeForCarSuperiorToReduction(){
-        ticket.setPrice(1.00);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.calculateFreeTime(ticket);
-        assertEquals(ticket.getPrice(), 0.25);
+    public void subtractFreeTimeFromThirtyMinutesDuration() {
+        long durationWithoutFreeTime = 30;
+        long durationMinusFreeTime = advantagesCalculator.subtractFreeTime(durationWithoutFreeTime);
+        assertEquals(0, durationMinusFreeTime);
     }
 
     @Test
-    public void calculateFreeTimeForBikeEqualOrLowerToReduction(){
-        ticket.setPrice(0.50);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.calculateFreeTime(ticket);
-        assertEquals(ticket.getPrice(), 0.00);
+    public void subtractFreeTimeFromZeroMinutesDuration() {
+        long durationWithoutFreeTime = 0;
+        long durationMinusFreeTime = advantagesCalculator.subtractFreeTime(durationWithoutFreeTime);
+        assertEquals(0, durationMinusFreeTime);
     }
 
     @Test
-    public void calculateFreeTimeForBikeSuperiorToReduction(){
-        ticket.setPrice(0.75);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.calculateFreeTime(ticket);
-        assertEquals(ticket.getPrice(), 0.25);
+    public void subtractFreeTimeFromNegativeDuration() {
+        long durationWithoutFreeTime = -100;
+        long durationMinusFreeTime = advantagesCalculator.subtractFreeTime(durationWithoutFreeTime);
+        assertEquals(0, durationMinusFreeTime);
     }
 
     @Test
-    public void calculateFreeTimeUnknownType(){
-        ticket.setPrice(0.75);
-        ParkingSpot parkingSpot = new ParkingSpot(1, null,false);
-        ticket.setParkingSpot(parkingSpot);
-        assertThrows(NullPointerException.class, () -> advantagesCalculator.calculateFreeTime(ticket));
+    public void subtractFreeTimeFromSixtyMinutesDuration() {
+        long durationWithoutFreeTime = 60;
+        long durationMinusFreeTime = advantagesCalculator.subtractFreeTime(durationWithoutFreeTime);
+        assertEquals(30, durationMinusFreeTime);
     }
 
     @Test
-    public void calculateDiscountForRecurringUsersWithCarWhenAmountSuperiorToZero(){
-        ticket.setPrice(1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
-        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    public void applyFivePercentReductionOnAnAmountEqualToZero() {
+        double amountEqualToZero = 0;
+        double amountAfterApplyFivePercentReduction = advantagesCalculator.applyFivePercentReduction(amountEqualToZero);
+        assertEquals(0, amountAfterApplyFivePercentReduction);
     }
 
     @Test
-    public void calculateDiscountForRecurringUsersWithBikeWhenAmountSuperiorToZero(){
-        ticket.setPrice(1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
-        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    public void applyFivePercentReductionOnAPositiveAmount() {
+        double positiveAmount = 100;
+        double amountAfterApplyFivePercentReduction = advantagesCalculator.applyFivePercentReduction(positiveAmount);
+        assertEquals(95, amountAfterApplyFivePercentReduction);
     }
 
     @Test
-    public void calculateDiscountForRecurringUsersWithCarWhenAmountInferiorOrEqualToZero(){
-        ticket.setPrice(1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-        ticket.setParkingSpot(parkingSpot);
-        advantagesCalculator.CalculateDiscountForRecurringUsers(ticket);
-        assertEquals(ticket.getPrice(), 0.95); // TODO  CORRECTION
+    public void applyFivePercentReductionOnANegativeAmount() {
+        double negativeAmount = -100;
+        double amountAfterApplyFivePercentReduction = advantagesCalculator.applyFivePercentReduction(negativeAmount);
+        assertEquals(0, amountAfterApplyFivePercentReduction);
+    }
+
+    @Test
+    public void isEligibleForDiscountForRecurringUsersIfExistOnDataBase() {
+        ArrayList<String> vehiclesAlreadyRegisteredList = new ArrayList<>();
+        String vehicleRegNumber = "TEST";
+        vehiclesAlreadyRegisteredList.add(vehicleRegNumber);
+        boolean isRecurringUser = advantagesCalculator.isEligibleForDiscountForRecurringUsers(vehiclesAlreadyRegisteredList, vehicleRegNumber);
+        assertTrue(isRecurringUser);
+    }
+
+    @Test
+    public void isEligibleForDiscountForRecurringUsersIfDontExistOnDataBase() {
+        ArrayList<String> vehiclesAlreadyRegisteredList = new ArrayList<>();
+        vehiclesAlreadyRegisteredList.add("TEST2");
+        String vehicleRegNumber = "TEST";
+        boolean isRecurringUser = advantagesCalculator.isEligibleForDiscountForRecurringUsers(vehiclesAlreadyRegisteredList, vehicleRegNumber);
+        assertFalse(isRecurringUser);
     }
 }
-*/
