@@ -17,9 +17,10 @@ public class TicketDAO {
 
     public boolean saveTicket(Ticket ticket) {
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = dataBaseConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DBConstants.SAVE_TICKET);
+            statement = connection.prepareStatement(DBConstants.SAVE_TICKET);
             statement.setInt(1, ticket.getParkingSpot().getId());
             statement.setString(2, ticket.getVehicleRegNumber());
             statement.setDouble(3, ticket.getPrice());
@@ -29,7 +30,16 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("03 Error fetching next available slot", ex);
         } finally {
-            dataBaseConfig.closeConnection(connection);
+            try {
+                dataBaseConfig.closeConnection(connection);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL connection", ex);
+            }
+            try {
+                dataBaseConfig.closePreparedStatement(statement);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL prepareStatement", ex);
+            }
         }
         return false;
     }
@@ -66,9 +76,10 @@ public class TicketDAO {
 
     public boolean updateTicket(Ticket ticket) {
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = dataBaseConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DBConstants.UPDATE_TICKET);
+            statement = connection.prepareStatement(DBConstants.UPDATE_TICKET);
             statement.setDouble(1, ticket.getPrice());
             statement.setTimestamp(2, Timestamp.valueOf(ticket.getOutTime()));
             statement.setInt(3, ticket.getId());
@@ -77,17 +88,27 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
         } finally {
-            dataBaseConfig.closeConnection(connection);
+            try {
+                dataBaseConfig.closeConnection(connection);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL connection", ex);
+            }
+            try {
+                dataBaseConfig.closePreparedStatement(statement);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL prepareStatement", ex);
+            }
         }
         return false;
     }
 
     public ArrayList<String> getAllVehicleRegNumber() {
         Connection connection = null;
+        PreparedStatement statement = null;
         ArrayList<String> list = new ArrayList<>();
         try {
             connection = dataBaseConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DBConstants.GET_ALL_VEHICLE_REG_NUMBER);
+            statement = connection.prepareStatement(DBConstants.GET_ALL_VEHICLE_REG_NUMBER);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 list.add(resultSet.getString(1));
@@ -95,7 +116,16 @@ public class TicketDAO {
         } catch (Exception ex) {
             logger.error("Error getting all vehicle reg number", ex);
         } finally {
-            dataBaseConfig.closeConnection(connection);
+            try {
+                dataBaseConfig.closeConnection(connection);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL connection", ex);
+            }
+            try {
+                dataBaseConfig.closePreparedStatement(statement);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL prepareStatement", ex);
+            }
         }
         return list;
     }

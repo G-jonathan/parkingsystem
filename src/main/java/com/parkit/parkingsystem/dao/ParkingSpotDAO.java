@@ -41,19 +41,30 @@ public class ParkingSpotDAO {
 
     public boolean updateParking(ParkingSpot parkingSpot) {
         Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = dataBaseConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
+            statement = connection.prepareStatement(DBConstants.UPDATE_PARKING_SPOT);
             statement.setBoolean(1, parkingSpot.isAvailable());
             statement.setInt(2, parkingSpot.getId());
             int updateRowCount = statement.executeUpdate();
-            dataBaseConfig.closePreparedStatement(statement);
             return (updateRowCount == 1);
         } catch (Exception ex) {
             logger.error("Error updating parking info", ex);
             return false;
         } finally {
-            dataBaseConfig.closeConnection(connection);
+            try {
+                dataBaseConfig.closeConnection(connection);
+            } catch (Exception ex) {
+                logger.error("Error closing SQL connection", ex);
+            }
+            try {
+                if (statement != null) {
+                    dataBaseConfig.closePreparedStatement(statement);
+                }
+            } catch (Exception ex) {
+                logger.error("Error closing SQL prepareStatement", ex);
+            }
         }
     }
 }

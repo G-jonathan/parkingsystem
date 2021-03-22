@@ -8,7 +8,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
 public final class FareCalculatorService {
     private final AdvantagesCalculator advantagesCalculator = new AdvantagesCalculator();
     private double fareWithoutDiscountForRecurringUsers = 0;
@@ -20,7 +19,7 @@ public final class FareCalculatorService {
         ParkingType parkingType = ticket.getParkingSpot().getParkingType();
         String vehicleRegNumber = ticket.getVehicleRegNumber();
         if ((outTime == null) || (outTime.isBefore(inTime))) {
-            throw new IllegalArgumentException("Out time provided is incorrect:" + outTime.toString());
+            throw new IllegalArgumentException("Out time provided is incorrect:" + (outTime != null ? outTime.toString() : null));
         }
         long durationBetweenInTimeAndOutTime = Duration.between(inTime, outTime).toMinutes();
         long durationAfterSubtractFreeTime = advantagesCalculator.subtractFreeTime(durationBetweenInTimeAndOutTime);

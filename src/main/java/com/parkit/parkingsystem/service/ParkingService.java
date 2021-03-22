@@ -26,27 +26,22 @@ public class ParkingService {
     }
 
     public void processIncomingVehicle() throws Exception {
-        try {
-            ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
-            if (parkingSpot != null && parkingSpot.getId() > 0) {
-                String vehicleRegNumber = getVehicleRegNumber();
-                parkingSpot.setAvailable(false);
-                parkingSpotDAO.updateParking(parkingSpot);
-                LocalDateTime inTime = LocalDateTime.now();
-                Ticket ticket = new Ticket();
-                //ticket.setId(ticketID);
-                ticket.setParkingSpot(parkingSpot);
-                ticket.setVehicleRegNumber(vehicleRegNumber);
-                ticket.setPrice(0);
-                ticket.setInTime(inTime);
-                ticket.setOutTime(null);
-                ticketDAO.saveTicket(ticket);
-                System.out.println("Generated Ticket and saved in DB");
-                System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
-                System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
-            }
-        } catch (Exception e) {
-            logger.error("Unable to process incoming vehicle", e);
+        ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
+        if (parkingSpot != null && parkingSpot.getId() > 0) {
+            String vehicleRegNumber = getVehicleRegNumber();
+            parkingSpot.setAvailable(false);
+            parkingSpotDAO.updateParking(parkingSpot);
+            LocalDateTime inTime = LocalDateTime.now();
+            Ticket ticket = new Ticket();
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber(vehicleRegNumber);
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+            ticketDAO.saveTicket(ticket);
+            System.out.println("Generated Ticket and saved in DB");
+            System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
+            System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
         }
     }
 
