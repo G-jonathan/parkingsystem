@@ -1,36 +1,34 @@
 package com.parkit.parkingsystem.service;
 
-import com.parkit.parkingsystem.dao.TicketDAO;
-import com.parkit.parkingsystem.model.Ticket;
-
 import java.util.ArrayList;
 
 public final class AdvantagesCalculator {
 
-    public  void CalculateFreeTime(Ticket ticket){
-        double price = ticket.getPrice();
-
-        switch (ticket.getParkingSpot().getParkingType()){
-            case CAR: {
-                if(price <= 0.75){
-                    ticket.setPrice(0);
-                }
-                else {
-                    ticket.setPrice(price - 0.75);
-                }
-                break;
-            }
-            case BIKE: {
-                if(price <= 0.50){
-                    ticket.setPrice(0);
-                }
-                else {
-                    ticket.setPrice(price - 0.50);
-                }
-                break;
-            }
-            default: throw new IllegalArgumentException("Unknown Parking Type");
+    public long subtractFreeTime(long time) {
+        if (time > 30) {
+            return time - 30;
         }
+        return 0;
+    }
+
+    public boolean isEligibleForDiscountForRecurringUsers(ArrayList<String> list, String vehicleRegNumber) {
+        int number = 0;
+        for (String index : list) {
+            if (index.equals(vehicleRegNumber)) {
+                number++;
+            }
+        }
+        if (number >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public double applyFivePercentReduction(double numberWithoutReduction) {
+        if (numberWithoutReduction > 0) {
+            return numberWithoutReduction - (numberWithoutReduction * 5 / 100);
+        }
+        return 0;
     }
 
     public void CalculateDiscountForRecurringUsers(Ticket ticket){

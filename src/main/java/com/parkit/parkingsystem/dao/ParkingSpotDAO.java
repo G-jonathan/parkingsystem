@@ -12,7 +12,11 @@ import java.sql.ResultSet;
 
 public final class ParkingSpotDAO {
     private static final Logger logger = LogManager.getLogger("ParkingSpotDAO");
-    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+    public DataBaseConfig dataBaseConfig;
+
+    public ParkingSpotDAO(DataBaseConfig dataBaseConfig) {
+        this.dataBaseConfig = dataBaseConfig;
+    }
 
     public int getNextAvailableSlot(ParkingType parkingType) {
         Connection connection = null;
@@ -24,12 +28,11 @@ public final class ParkingSpotDAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getInt(1);
-                ;
             }
             dataBaseConfig.closeResultSet(resultSet);
             dataBaseConfig.closePreparedStatement(statement);
         } catch (Exception ex) {
-            logger.error("Error fetching next available slot", ex);
+            logger.error("01 Error fetching next available slot", ex);
         } finally {
             dataBaseConfig.closeConnection(connection);
         }
