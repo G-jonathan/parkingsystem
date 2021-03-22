@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+
 public final class FareCalculatorService {
     private final AdvantagesCalculator advantagesCalculator = new AdvantagesCalculator();
     private double fareWithoutDiscountForRecurringUsers = 0;
