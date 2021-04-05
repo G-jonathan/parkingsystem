@@ -11,7 +11,7 @@ public class DataBaseConfig {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod", "jonathanDev", "lemotdepasseleplussolidedetouslestemps");
+                "jdbc:mysql://localhost:3306/prod?serverTimezone=Europe/Paris", "jonathanDev", "lemotdepasseleplussolidedetouslestemps");
     }
 
     public void closeConnection(Connection connection) {
